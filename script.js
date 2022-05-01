@@ -1,5 +1,5 @@
 //Books collection
-let library = [new Book("Rogue", "author", 48, true, 0)]
+let library = []
 
 //Book template
 function Book(title, author, pages, read, bookNumber){
@@ -18,25 +18,20 @@ function Book(title, author, pages, read, bookNumber){
 //Add a book to the library
 function addBook() {
     //get info to create new book
-    let title =  document.querySelector('#title').value.toUpperCase()
-    let author = document.querySelector('#author').value.toUpperCase()
-    let pages = document.querySelector('#pages').value.toUpperCase()
+    const title =  document.querySelector('#title').value.toUpperCase()
+    const author = document.querySelector('#author').value.toUpperCase()
+    let pages = `${document.querySelector('#pages').value.toUpperCase()} pages`
     let read = document.querySelector('#read').checked
     if((title.length == 0) || (author.length == 0) || (`${pages}`.length == 0)) {
-        displayError()
+        displayError.call(this)
     } else {
-        pages = `${pages} pages`
-        //create new book with current info and add it to library
+        //Update books in library
         const book = new Book(title, author, pages, read, library.length)
-        library.push(book)
+        library.push(book);
         resetForm();
-        //Hide the form visibility
-        document.querySelector('.formContainer').style.display = 'none'
-        //show user the current books stored
-        displayBooks()
-
+        displayBooks(); //Display current books in library
         const errorMsg = document.querySelector('#errorMsg')
-        errorMsg.textContent = ''
+        errorMsg.textContent = '' //Clear error message
     }
 }
 document.querySelector('#addBook').addEventListener('click', addBook)
@@ -55,10 +50,10 @@ function resetForm () {
 //display Error
 function displayError () {
     const errorMsg = document.querySelector('#errorMsg')
-    errorMsg.textContent = 'Error reading empty or invalid input field!'
+    errorMsg.textContent = 'Error!! An input field is invalid!'
     errorMsg.style.color = 'red'
     errorMsg.style.fontFamily = 'sans-serif'
-    errorMsg.style.fontSize = '16px'
+    errorMsg.style.fontSize = '14px'
 }
 
 
