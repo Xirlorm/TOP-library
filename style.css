@@ -3,6 +3,8 @@ body {
     text-align: center;
     margin: 0;
     background: #eee;
+    --theme-color1: #67d;
+    --theme-color2: #324;
 }
 
 /*:::::::::::: HEADER ::::::::::::*/
@@ -22,7 +24,7 @@ header {
 /*------------ Add Book button ------------*/
 header span {
     vertical-align: middle;
-    color: #67d;
+    color: var(--theme-color1);
 }
 
 header span:active {
@@ -32,7 +34,7 @@ header span:active {
 header h1 {
     vertical-align: top;
     margin: 5px 12px;
-    color: #444;
+    color: var(--theme-color2);
 }
 
 
@@ -40,6 +42,7 @@ header h1 {
 #booksDisplay {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 340px));
+    place-content: space-evenly;
     text-align: center;
 }
 
@@ -49,7 +52,7 @@ header h1 {
     border: 1px solid #ddd;
     border-radius: 6px;
     font-family: sans-serif;
-    background: #444;
+    background: var(--theme-color2);
     color: #fff;
     font-weight: 500;
     text-align: center;
@@ -83,18 +86,14 @@ header h1 {
 form {
     margin: 10px;
     padding: 20px 8px 25px;
-    border: 1px solid #bbb;
     border-radius: 12px;
-    width: 335px;
-    color: #444;
+    width: 345px;
+    color: var(--theme-color2);
     font-family: sans-serif;
     background: #fff;
 }
 
-form h2 {
-    text-align: center;
-    margin: 12px 4px 20px;
-}
+form legend { color: var(--theme-color2); }
 
 form, form li {
     display: flex;
@@ -102,9 +101,7 @@ form, form li {
     justify-content: center;
 }
 
-form li{
-    margin: 15px 12px;
-}
+form li{ margin: 15px 12px; }
 
 form input {
     padding: 12px;
@@ -134,13 +131,13 @@ input[type="checkbox"] {
     height: 22px;
     margin: 3px;
     padding: 0;
-    border: 2px solid #438;
+    border: 1px solid var(--theme-color1);
     border-radius: 4px;
 }
 
 input[type="checkbox"]:checked {
     background: #fff;
-    border: 1px solid #ddd;
+    border: none;
 }
 
 input[type="checkbox"]:checked:before {
@@ -152,9 +149,7 @@ input[type="checkbox"]:checked:before {
     font-weight: 600;
 }
 
-fieldset {
-    border: none;
-}
+fieldset { border: none; }
 
 fieldset legend {
     font-size: 22px;
@@ -170,12 +165,14 @@ button {
     padding: 10px 25px;
     border-radius: 6px;
     border: 1px solid #aaa;
-    background: #fff;
-    font-weight: 600;
-    color: #444;
+    background: #aaa;
+    font-weight: 500;
+    font-size: 18px;
+    color: var(--theme-color2);
 }
 
 button:active {
     background: #43a;
+    border-width: 2px;
 }
 
