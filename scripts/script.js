@@ -20,19 +20,16 @@ function addBook(e) {
   const pages = `${document.querySelector("#pages").value.toUpperCase()} pages`
   const read = document.querySelector("#read").checked
 
-  if (title.length == 0 || author.length == 0 || `${pages}`.length == 0) {
-    displayError.call(this)
-  } else {
-    library.push(
-      new Book(title, author, pages, read, library.length)
-    )
-    displayBooks()
-    clearFormInputs()
-    document.querySelector("#errorMsg").textContent = ""
+  if (true) {
+    library.push(new Book(title, author, pages, read, library.length))
+    // displayBooks()
+    // clearFormInputs()
+    // document.querySelector("#errorMsg").textContent = ""
     document.querySelector(".formContainer").style.display = 'none'
   }
 }
-document.querySelector("#addBook").addEventListener("click", addBook)
+document.querySelector("#add-book").addEventListener("click", addBook)
+alert()
 
 //Reset form
 function clearFormInputs() {
@@ -44,7 +41,7 @@ function clearFormInputs() {
 
 //display Error
 function displayError() {
-  const errorMsg = document.querySelector("#errorMsg")
+  const errorMsg = document.querySelector("#error-msg")
   errorMsg.textContent = "Error!! An input field is invalid!"
   errorMsg.style.color = "red"
   errorMsg.style.fontFamily = "sans-serif"
