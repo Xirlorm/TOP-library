@@ -1,109 +1,105 @@
-//Books collection
+// Container for displaying all books
+const shelf = document.querySelector('.shelf')
+// Form input fields
+const form = document.querySelector('form')
+const title = document.querySelector('#title')
+const author = document.querySelector('#author')
+const pages = document.querySelector('#pages')
+const read = document.querySelector('#read')
+
+// Books collection
 const library = []
 
+// Book template
 class Book {
-  constructor(bookTitle, bookAuthor, numOfPages, hasRead, number) {
-    this.title = bookTitle
-    this.author = bookAuthor
-    this.pages = numOfPages
+  constructor(title, author, pages, hasRead, id) {
+    this.title = title
+    this.author = author
+    this.pages = pages
     this.read = hasRead
-    this.bookNumber = number
+    this.id = id
   }
 }
 
-//Add a book to the library
-function addBook(e) {
-  e.preventDefault()
 
-  const title = document.querySelector("#title").value.toUpperCase()
-  const author = document.querySelector("#author").value.toUpperCase()
-  const pages = `${document.querySelector("#pages").value.toUpperCase()} pages`
-  const read = document.querySelector("#read").checked
+// Toggle Form visibility when add icon is clicked
+document.querySelector('header > span').addEventListener('click', () => {
+  form.classList.toggle('visible')
+})
 
-  if (true) {
-    library.push(new Book(title, author, pages, read, library.length))
-    // displayBooks()
-    // clearFormInputs()
-    // document.querySelector("#errorMsg").textContent = ""
-    document.querySelector(".formContainer").style.display = 'none'
-  }
-}
-document.querySelector("#add-book").addEventListener("click", addBook)
-alert()
+// Add new book to list
+document.querySelector('#add-book').addEventListener('click', (event) => {
+  const isValid = () => title.validity.valid == author.validity.valid == pages.validity.valid
 
-//Reset form
+  if (isValid()) {
+    library.push( new Book(
+        title.value,
+        author.value,
+        pages.value,
+        read.checked,
+        library.length
+      ))
+    displayBooks()
+    clearFormInputs()
+    form.classList.remove('visible')
+  } else { /*showError()*/ }
+  event.preventDefault()
+})
+
+// Reset form input fields
 function clearFormInputs() {
-  title.value = ""
-  author.value = ""
-  pages.value = ""
+  title.value = ''
+  author.value = ''
+  pages.value = ''
   read.checked = false
 }
 
-//display Error
-function displayError() {
-  const errorMsg = document.querySelector("#error-msg")
-  errorMsg.textContent = "Error!! An input field is invalid!"
-  errorMsg.style.color = "red"
-  errorMsg.style.fontFamily = "sans-serif"
-  errorMsg.style.fontSize = "14px"
-}
-
-//Assign new numbers to books when one is removed
-function resetBookNumbers() {
+// Assign new ID's to books
+function resetBookIDs() {
   let length = 0
-  library.forEach((book) => {
-    book.bookNumber = length
-    ++length
-  })
+  library.forEach((book) => book.id = ++length)
 }
 
-//Display the Books in library
+// Display information of books enetered by user
 function displayBooks() {
-  let booksDisplay = document.querySelector("#booksDisplay")
-  booksDisplay.innerText = ""
-  library.forEach((book) => {
-    //Create Card
-    let bookCard = document.createElement("div")
-    bookCard.setAttribute("data-key", book.bookNumber)
-    for (let key in book) {
-      if (key == "bookNumber") continue
-      let bookInfo = document.createElement("div")
-      bookInfo.innerText = book[key]
-      bookInfo.setAttribute("class", key)
-      if (key == "read") {
-        let hasRead = document.createElement("input")
-        hasRead.setAttribute("type", "checkbox")
-        hasRead.checked = book.read
-        hasRead.addEventListener("change", () => {
-          library[book.bookNumber].read = !library[book.bookNumber].read
-        })
-        bookInfo.innerText = key[0].toUpperCase() + key.slice(1)
-        bookInfo.appendChild(hasRead)
-      }
-      bookCard.appendChild(bookInfo)
-    }
+  shelf.textContent = ''
 
-    //Create delete button and add it to card
-    let deleteButton = document.createElement("button")
-    deleteButton.setAttribute("class", "removeBook")
-    deleteButton.innerText = "Remove Book"
-    deleteButton.addEventListener("click", () => {
-      library.splice(book.bookNumber, 1)
-      resetBookNumbers()
-      displayBooks()
+  library.forEach((book) => {
+    const bookItem = document.createElement('div')
+    bookItem.className = 'book-item'
+    const title = document.createElement('h3')
+    title.textContent = book.title.toUpperCase()
+    title.className = 'book-title'
+    const author = document.createElement('h4')
+    author.textContent = 'by ' + book.author.toUpperCase()
+    author.className = 'book-author'
+    const pages = document.createElement('div')
+    pages.textContent = book.pages + ' pages'
+    pages.className = 'book-pages'
+    const status = document.createElement('input')
+    status.type = 'checkbox'
+    status.checked = book.read
+    status.addEventListener('change', () => {
+      library[book.id].read = !library[book.id].read
     })
-    bookCard.appendChild(deleteButton)
-    //Add bookCard to books
-    booksDisplay.appendChild(bookCard)
+    const statusBox = document.createElement('div')
+    statusBox.innerText = 'Done reading? '
+    statusBox.appendChild(status)
+    statusBox.className = 'book-status'
+    const deleteBtn = document.createElement('button')
+    deleteBtn.classList.add('removeBook')
+    deleteBtn.innerText = 'Remove Book'
+    deleteBtn.className = 'delete-book'
+    deleteBtn.addEventListener('click', () => {
+      library.splice(book.id, 1)
+      resetBookIDs()
+      shelf.removeChild(bookItem)
+    })
+    bookItem.appendChild(title)
+    bookItem.appendChild(author)
+    bookItem.appendChild(pages)
+    bookItem.appendChild(statusBox)
+    bookItem.appendChild(deleteBtn)
+    shelf.appendChild(bookItem)
   })
 }
-
-//Toggle Form visibility when add icon is clicked
-document.querySelector("header > span").addEventListener("click", () => {
-  const showForm = document.querySelector(".formContainer")
-  if (showForm.style.display != "inline-block") {
-    showForm.style.display = "inline-block"
-    return
-  }
-  showForm.style.display = "none"
-})

@@ -34,56 +34,33 @@ header h1 {
 }
 
 
-/*:::::::::::: MAIN ::::::::::::*/
-#booksDisplay {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 340px));
-    place-content: space-evenly;
-    text-align: center;
-}
-
-#booksDisplay > div {
-    margin: 10px;
-    padding: 16px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-family: sans-serif;
-    background: var(--theme-color2);
-    color: #fff;
-    font-weight: 500;
-    text-align: center;
-}
-
-#booksDisplay > div > div {
-    padding: 3px;
-    margin: 3px;
-}
-
-#booksDisplay input[type="checkbox"] { border: 2px solid #ddd; }
-
-.read input{
-    margin: 0;
-    padding: 0;
-    vertical-align: middle;
-}
-
-
-main {
-    display: flex;
-    justify-content: center;
-}
 
 /*:::::::::::: FORM ::::::::::::*/
 form {
     /* display: none; */
-    margin: 0.4rem;
+    margin: 0;
     padding: 0.6rem 0.8rem 1.7rem;
-    border-radius: 0.8rem;
+    border-radius: 1.2rem;
+    border: 0.15rem solid var(--theme-color2);
+    box-shadow: 0.3rem 0.3rem 0.3rem #bbb,
+                -0.3rem -0.3rem 0.3rem #bbb;
     width: 345px;
-    background-color: var(--theme-color2);
-    color: var(--theme-color1);
+    background-color: #ddd;
+    color: var(--theme-color2);
     font-family: sans-serif;
-    border: 1px solid var(--theme-color2);
+    visibility: hidden;
+    opacity: 0;
+    height: 0;
+    transition: visibility .4s ease-in-out .1s,
+                opacity .4s ease-in-out .1s,
+                height .4s ease-in-out .1s;
+}
+
+form.visible {
+    visibility: visible;
+    opacity: 1;
+    height: auto;
+    margin: 0.4rem;
 }
 
 legend {
@@ -95,10 +72,8 @@ legend {
     color: #bbb;
 }
 
-form li{ margin: 15px 12px; }
-
-form input {
-    padding: 0.6rem 1rem;
+input {
+    padding: 0.5rem 1rem;
     border: 1px solid #a7b8c1;
     border-radius: 6px;
     text-align: center;
@@ -109,20 +84,23 @@ form input {
     transition: width .5s ease-in-out .1s;
 }
 
-form input:focus {
+input:not(
+    [type="submit"],
+    [type="checkbox"]
+):focus {
     outline: none;
     width: 17rem;
     border: 2px solid var(--theme-color1);
 }
 
-form input:focus:invalid { border-color: #f22; }
+input:focus:invalid { border-color: #f22; }
 
-form input[type="checkbox" ] {
+input[type="checkbox" ] {
     padding-left: 0.9rem;
     padding-right: 0.9rem;
 }
 
-form input[type="checkbox"] {
+input[type="checkbox"] {
     -webkit-appearance: none;
     appearance: none;
     display: inline-flex;
@@ -149,6 +127,13 @@ input[type="checkbox"]:checked:before {
     outline: none;
 }
 
+input[type=submit] {
+    background-color: #ddd;
+    width: 7rem;
+    font-weight: 500;
+    border: 1px solid var(--theme-color2);
+}
+
 form > div {
     margin: 0.4rem;
     display: flex;
@@ -161,3 +146,47 @@ label { display: none; }
 .status-field label { display: inline; }
 
 .status-field { margin-bottom: 1.4rem; }
+
+/************* MAIN *************/
+main {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+
+.shelf {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 340px));
+    gap: 0.4rem;
+    place-content: space-evenly;
+    text-align: center;
+}
+
+.book-item {
+    padding: 0.9rem 0.9rem 1.1rem;
+    background: #ddd;
+    border-radius: 0.7rem;
+    font-family: sans-serif;
+    box-shadow: 0.3rem 0.4rem 0.4rem #aaa;
+    border: 2px solid var(--theme-color2);
+}
+
+.book-item button {
+    color: #000;
+    padding: 0.7rem 0.6rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--theme-color2);
+    background: transparent;
+}
+
+.book-title,
+.book-author {
+    margin: 0.2rem;
+}
+
+.book-status {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0.6rem;
+}
