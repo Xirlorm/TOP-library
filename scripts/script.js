@@ -6,6 +6,7 @@ const title = document.querySelector('#title')
 const author = document.querySelector('#author')
 const pages = document.querySelector('#pages')
 const read = document.querySelector('#read')
+const errorMsg = document.querySelector('.error-msg')
 
 // Books collection
 const library = []
@@ -21,15 +22,19 @@ class Book {
   }
 }
 
+const isValid = () => {
+  return title.validity.valid ? author.validity.valid ?
+        pages.validity.valid ? true : false : false : false
+}
 
 // Toggle Form visibility when add icon is clicked
 document.querySelector('header > span').addEventListener('click', () => {
   form.classList.toggle('visible')
+  clearFormInputs()
 })
 
 // Add new book to list
 document.querySelector('#add-book').addEventListener('click', (event) => {
-  const isValid = () => title.validity.valid == author.validity.valid == pages.validity.valid
 
   if (isValid()) {
     library.push( new Book(
@@ -42,7 +47,66 @@ document.querySelector('#add-book').addEventListener('click', (event) => {
     displayBooks()
     clearFormInputs()
     form.classList.remove('visible')
-  } else { /*showError()*/ }
+  } else showErrorMsg()
+  event.preventDefault()
+})
+
+function showErrorMsg() {
+  if (title.validity.valueMissing) {
+    errorMsg.textContent = 'Please input a Title value'
+    errorMsg.classList.add('error')
+    title.focus()
+  } else if (author.validity.valueMissing) {
+    errorMsg.textContent = 'Please input an Author value'
+    errorMsg.classList.add('error')
+    author.focus()
+  } else if (pages.validity.valueMissing) {
+    errorMsg.textContent = 'Please input number of pages'
+    errorMsg.classList.add('error')
+    pages.focus()
+  } else if (pages.validity.rangeUnderflow) {
+    errorMsg.classList.add('error')
+    errorMsg.textContent = 'Page input value under range, minimum is 1'
+    pages.focus()
+  } else {
+    errorMsg.classList.remove('error')
+    errorMsg.textContent = ''
+  }
+}
+
+title.addEventListener('input', (event) => {
+  if (title.validity.valueMissing) {
+    errorMsg.textContent = 'Please input a Title value'
+    errorMsg.classList.add('error')
+  } else {
+    errorMsg.classList.remove('error')
+    errorMsg.textContent = ''
+  }
+  event.preventDefault()
+})
+
+author.addEventListener('input', (event) => {
+  if (author.validity.valueMissing) {
+    errorMsg.textContent = 'Please input an Author value'
+    errorMsg.classList.add('error')
+  } else {
+    errorMsg.classList.remove('error')
+    errorMsg.textContent = ''
+  }
+  event.preventDefault()
+})
+
+pages.addEventListener('input', (event) => {
+  if (pages.validity.valueMissing) {
+    errorMsg.textContent = 'Please input number of pages'
+    errorMsg.classList.add('error')
+  } else if (pages.validity.rangeUnderflow) {
+    errorMsg.classList.add('error')
+    errorMsg.textContent = 'Page input value under range, minimum is 1'
+  } else {
+    errorMsg.classList.remove('error')
+    errorMsg.textContent = ''
+  }
   event.preventDefault()
 })
 

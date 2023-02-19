@@ -145,7 +145,17 @@ label { display: none; }
 
 .status-field label { display: inline; }
 
-.status-field { margin-bottom: 1.4rem; }
+div.error-msg {
+    visibility: none;
+}
+
+.error-msg.error {
+    visibility: visible;
+    color: #944;
+    font-weight: 500;
+    font-size: 0.8em;
+    padding: 0.4rem;
+}
 
 /************* MAIN *************/
 main {
